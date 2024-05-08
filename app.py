@@ -2,19 +2,15 @@ import streamlit as st
 import tensorflow as tf
 from PIL import Image
 from tensorflow.keras.preprocessing.image import img_to_array
-import requests
 import os
 
 # Load the model
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
-        # Load the model from the GitHub repository
         model_url = "https://github.com/khems12/Facial-Emotion-Detection/raw/main/Final_Resnet50_Best_model.keras"
-        response = requests.get(model_url)
-        with open("Final_Resnet50_Best_model.keras", "wb") as f:
-            f.write(response.content)
-        return tf.keras.models.load_model("Final_Resnet50_Best_model.keras")
+        model_path = tf.keras.utils.get_file("Final_Resnet50_Best_model.keras", model_url)
+        return tf.keras.models.load_model(model_path)
     except Exception as e:
         st.error("Error loading model. Please make sure the model file is correct.")
         st.error(e)
@@ -36,16 +32,13 @@ def prepare_image(img):
     return img_array
 
 def predict_emotion(image, model):
-    print("Inside predict_emotion function")
     # Preprocess the image
     processed_image = prepare_image(image)
     # Make prediction using the model
     prediction = model.predict(processed_image)
-    print("Prediction:", prediction)
     # Get the emotion label with the highest probability
     predicted_class = tf.argmax(prediction, axis=1).numpy()[0]
     predicted_emotion = emotion_labels.get(predicted_class, "Unknown Emotion")
-    print("Predicted emotion:", predicted_emotion)
     return predicted_emotion
 
 
