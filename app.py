@@ -5,28 +5,15 @@ from tensorflow.keras.preprocessing.image import img_to_array
 import requests
 import os
 
-# Function to download the model file from Google Drive
-# def download_model():
-#     file_id = "1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y"  # Update with your file ID
-#     url = f"https://drive.google.com/uc?id={file_id}"
-#     response = requests.get(url)
-#     with open("best_model.keras", "wb") as f:
-#         f.write(response.content)
-
-import requests
-
-def download_model():
-    # file_id = "1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y"  # Update with your file ID
-    # url = f"https://drive.google.com/uc?id={file_id}"
-    response = requests.get("https://drive.google.com/file/d/1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y/view?usp=drive_link")
-    with open("Final_Resnet50_Best_model.keras", "wb") as f:
-        f.write(response.content)
-
-
 # Load the model
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
+        # Load the model from the GitHub repository
+        model_url = "https://github.com/khems12/Facial-Emotion-Detection/raw/main/Final_Resnet50_Best_model.keras"
+        response = requests.get(model_url)
+        with open("Final_Resnet50_Best_model.keras", "wb") as f:
+            f.write(response.content)
         return tf.keras.models.load_model("Final_Resnet50_Best_model.keras")
     except Exception as e:
         st.error("Error loading model. Please make sure the model file is correct.")
@@ -65,11 +52,6 @@ def predict_emotion(image, model):
 # Set up Streamlit app layout
 st.title("Facial Emotion Detection")
 st.write("Upload a facial image and let the model predict the emotion.")
-
-# Check if model file exists, if not, download it
-if not os.path.isfile("Final_Resnet50_Best_model.keras"):
-    with st.spinner("Downloading model..."):
-        download_model()
 
 # Load the model
 model = load_model()
