@@ -17,7 +17,7 @@ def download_model():
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
-        return tf.keras.models.load_model("best_model.keras")
+        return tf.keras.models.load_model("Final_Resnet50_Best_model.keras")
     except Exception as e:
         st.error("Error loading model. Please make sure the model file is correct.")
         st.error(e)
@@ -57,7 +57,7 @@ st.title("Facial Emotion Detection")
 st.write("Upload a facial image and let the model predict the emotion.")
 
 # Check if model file exists, if not, download it
-if not os.path.isfile("best_model.keras"):
+if not os.path.isfile("Final_Resnet50_Best_model.keras"):
     with st.spinner("Downloading model..."):
         download_model()
 
