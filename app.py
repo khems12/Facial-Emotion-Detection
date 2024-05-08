@@ -39,14 +39,18 @@ def prepare_image(img):
     return img_array
 
 def predict_emotion(image, model):
+    print("Inside predict_emotion function")
     # Preprocess the image
     processed_image = prepare_image(image)
     # Make prediction using the model
     prediction = model.predict(processed_image)
+    print("Prediction:", prediction)
     # Get the emotion label with the highest probability
     predicted_class = tf.argmax(prediction, axis=1).numpy()[0]
     predicted_emotion = emotion_labels.get(predicted_class, "Unknown Emotion")
+    print("Predicted emotion:", predicted_emotion)
     return predicted_emotion
+
 
 # Set up Streamlit app layout
 st.title("Facial Emotion Detection")
