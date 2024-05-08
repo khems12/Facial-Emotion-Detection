@@ -6,12 +6,22 @@ import requests
 import os
 
 # Function to download the model file from Google Drive
+# def download_model():
+#     file_id = "1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y"  # Update with your file ID
+#     url = f"https://drive.google.com/uc?id={file_id}"
+#     response = requests.get(url)
+#     with open("best_model.keras", "wb") as f:
+#         f.write(response.content)
+
+import requests
+
 def download_model():
-    file_id = "1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y"  # Update with your file ID
-    url = f"https://drive.google.com/uc?id={file_id}"
-    response = requests.get(url)
-    with open("best_model.keras", "wb") as f:
+    # file_id = "1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y"  # Update with your file ID
+    # url = f"https://drive.google.com/uc?id={file_id}"
+    response = requests.get("https://drive.google.com/file/d/1B1U1n0y4Dxxi18zw68N8byV0VNpXLa5y/view?usp=drive_link")
+    with open("Final_Resnet50_Best_model.keras", "wb") as f:
         f.write(response.content)
+
 
 # Load the model
 @st.cache(allow_output_mutation=True)
