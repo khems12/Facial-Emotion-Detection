@@ -4,18 +4,8 @@ from PIL import Image
 from tensorflow.keras.preprocessing.image import img_to_array
 import os
 
-# Load the model
-@st.cache(allow_output_mutation=True)
-def load_model():
-    try:
-        model_url = "https://github.com/khems12/Facial-Emotion-Detection/raw/main/Final_Resnet50_Best_model.keras"
-        model_path = tf.keras.utils.get_file("Final_Resnet50_Best_model.keras", model_url)
-        return tf.keras.models.load_model(model_path)
-    except Exception as e:
-        st.error("Error loading model. Please make sure the model file is correct.")
-        st.error(e)
-        return None
-
+model= tf.keras.models.load_model("Final_Resnet50_Best_model.keras")
+ 
 # Emotion labels dictionary
 emotion_labels = {0: 'angry', 1: 'disgust', 2: 'fear', 3: 'happy', 4: 'neutral', 5: 'sad', 6: 'surprise'}
 
@@ -47,7 +37,6 @@ st.title("Facial Emotion Detection")
 st.write("Upload a facial image and let the model predict the emotion.")
 
 # Load the model
-model = load_model()
 
 # Define function to handle image upload and prediction
 def classify_emotion():
